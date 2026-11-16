@@ -140,15 +140,15 @@ input[type="text"],input:not([type]){cursor:text}
 .hero-in{position:relative;z-index:2;width:100%;padding-top:136px;padding-bottom:64px}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);gap:48px;align-items:center}
 .hero-fala{
-  display:inline-flex;align-items:center;gap:8px;background:rgba(8,8,10,.74);
+  display:inline-flex;align-items:center;gap:8px;background:#101014;
   border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:8px 16px;
-  font-size:15px;font-weight:600;max-width:100%;
+  font-size:15px;font-weight:600;max-width:100%;line-height:1.45;
 }
 .dot-live{width:8px;height:8px;border-radius:50%;background:var(--red);flex:none;animation:pulse 1.8s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(232,17,45,.55)}70%{box-shadow:0 0 0 10px rgba(232,17,45,0)}100%{box-shadow:0 0 0 0 rgba(232,17,45,0)}}
 .hero h1{
   font-family:var(--font-display);font-weight:700;text-transform:uppercase;
-  font-size:clamp(34px,4.8vw,68px);line-height:1.05;letter-spacing:0;
+  font-size:clamp(34px,4.8vw,68px);line-height:1.12;letter-spacing:0;
   margin:24px 0 8px;max-width:12ch;
 }
 .hero h1 .hl{color:var(--red)}
@@ -184,12 +184,17 @@ input[type="text"],input:not([type]){cursor:text}
 
 /* Velocímetro decorativo */
 .gauge{
-  position:absolute;z-index:3;left:-64px;bottom:-40px;
+  /* Fica só sobre o vídeo (que não tem texto): nunca sobre a barra
+     superior nem sobre a legenda/botão do rodapé do telão. O recuo
+     inferior de 104px deixa o rodapé inteiro livre, e o recuo lateral
+     de 40px é menor que o gap de 48px da grade — não invade a coluna
+     do texto do hero em nenhuma largura. */
+  position:absolute;z-index:3;left:-40px;bottom:104px;
   width:200px;height:200px;pointer-events:none;opacity:.96;
   filter:drop-shadow(0 16px 40px rgba(0,0,0,.6));
 }
 .gauge svg{width:100%;height:100%}
-.gauge .gauge-face{fill:rgba(10,10,12,.78);stroke:#2c2c33;stroke-width:1.5}
+.gauge .gauge-face{fill:rgba(10,10,12,.94);stroke:#2c2c33;stroke-width:1.5}
 .gauge .tick{stroke:#5a5a63;stroke-width:2}
 .gauge .tick-major{stroke:#c9ccd1;stroke-width:3}
 .gauge .tick-red{stroke:var(--red)}
@@ -231,17 +236,21 @@ body.fx .gauge .needle{animation:sweep 2.4s cubic-bezier(.22,.9,.26,1) .35s both
 
 /* ---------- Seções / cabeçalhos de painel ---------- */
 .section{padding:96px 0}
+/* Âncoras nunca param sob o header fixo (72px): o título da seção
+   alvo fica sempre 88px abaixo do topo, sem texto coberto. */
+section[id],div[id="estoque"]{scroll-margin-top:88px}
 .section-head{max-width:720px;margin-bottom:48px}
 .kicker{
   font-family:var(--font-body);font-weight:700;letter-spacing:.16em;text-transform:uppercase;
   color:var(--red);font-size:13.5px;display:flex;align-items:center;gap:16px;margin-bottom:16px;
+  flex-wrap:wrap;line-height:1.5;
 }
 .kicker::before{content:"";width:8px;height:8px;background:var(--red);flex:none;box-shadow:0 0 12px var(--red-glow)}
 .kicker::after{content:"";height:1px;flex:0 0 56px;background:linear-gradient(90deg,var(--red),transparent)}
 /* Intro de cada etapa: a linha do rótulo se desenha quando a seção entra */
 .rv .kicker::after{transform:scaleX(0);transform-origin:left center;transition:transform .8s cubic-bezier(.2,.8,.25,1) .25s}
 .rv.in .kicker::after{transform:scaleX(1)}
-h2{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:clamp(32px,5vw,54px);line-height:1.06}
+h2{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:clamp(32px,5vw,54px);line-height:1.14}
 .section-head p{color:var(--muted);margin-top:16px;font-size:18px}
 
 /* Diferenciais: faixa de especificações */
@@ -320,20 +329,23 @@ h2{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font
 .card:hover .card-media img{transform:scale(1.06)}
 .card-media video{opacity:0;transition:opacity .35s}
 .card-media.playing video{opacity:1}
-.card-media::after{content:"";position:absolute;inset:auto 0 0 0;height:44%;background:linear-gradient(0deg,rgba(0,0,0,.72),transparent);pointer-events:none}
+.card-media::after{content:"";position:absolute;inset:auto 0 0 0;height:44%;background:linear-gradient(0deg,rgba(0,0,0,.82),transparent);pointer-events:none}
 .badge-cat{
-  position:absolute;top:16px;left:16px;z-index:3;background:rgba(8,8,10,.85);color:#fff;
+  position:absolute;top:16px;left:16px;z-index:3;background:#08080a;color:#fff;
   font-family:var(--font-mono);letter-spacing:.08em;text-transform:uppercase;
-  font-size:12.5px;padding:8px;min-height:32px;display:flex;align-items:center;border-radius:6px;border:1px solid rgba(255,255,255,.18);
+  font-size:12.5px;line-height:1.25;padding:8px;min-height:32px;display:flex;align-items:center;border-radius:6px;border:1px solid rgba(255,255,255,.18);
+  max-width:calc(100% - 88px);
 }
 .badge-km{
   position:absolute;bottom:16px;left:16px;z-index:3;background:var(--red);color:#fff;
-  font-weight:700;font-size:14px;padding:8px;border-radius:6px;min-height:32px;display:flex;align-items:center;
+  font-weight:700;font-size:14px;line-height:1.25;padding:8px;border-radius:6px;min-height:32px;display:flex;align-items:center;
+  max-width:calc(100% - 176px);
 }
 .sound-btn{
   position:absolute;right:16px;bottom:16px;z-index:3;display:inline-flex;align-items:center;gap:8px;
-  min-height:44px;padding:8px 16px;border-radius:999px;background:rgba(8,8,10,.86);
-  border:1px solid rgba(255,255,255,.38);color:#fff;font-weight:700;font-size:14.5px;
+  min-height:44px;padding:8px 16px;border-radius:999px;background:#08080a;
+  border:1px solid rgba(255,255,255,.38);color:#fff;font-weight:700;font-size:14.5px;line-height:1.25;
+  max-width:calc(100% - 32px);
   transition:border-color .2s,background .2s,transform .15s;
 }
 .sound-btn svg{width:18px;height:18px;flex:none}
@@ -353,7 +365,7 @@ h2{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font
 @keyframes favPop{0%{transform:scale(1)}35%{transform:scale(1.3)}65%{transform:scale(.9)}100%{transform:scale(1)}}
 .fav-btn.pop{animation:favPop .38s cubic-bezier(.2,.8,.25,1)}
 .card-body{padding:24px;display:flex;flex-direction:column;gap:8px;flex:1}
-.card-body h3{font-family:var(--font-display);font-weight:600;font-size:25px;line-height:1.14;text-transform:uppercase;letter-spacing:.01em}
+.card-body h3{font-family:var(--font-display);font-weight:600;font-size:25px;line-height:1.22;text-transform:uppercase;letter-spacing:.01em}
 .card-specs{color:var(--muted);font-size:15.5px;line-height:1.55}
 .card-price{margin-top:auto;padding-top:16px}
 .price-label{font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
@@ -406,7 +418,7 @@ h2{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font
   background:linear-gradient(90deg,var(--red),transparent);
 }
 .sim-result .r-label{font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.sim-result .r-value{font-family:var(--font-mono);font-weight:400;font-size:clamp(40px,5.6vw,56px);line-height:1.05;margin:8px 0 0;color:#fff;text-shadow:0 0 24px rgba(232,17,45,.35)}
+.sim-result .r-value{font-family:var(--font-mono);font-weight:400;font-size:clamp(40px,5.6vw,56px);line-height:1.12;margin:8px 0 0;color:#fff;text-shadow:0 0 24px rgba(232,17,45,.35);overflow-wrap:anywhere}
 .sim-result .r-value small{font-size:20px;color:var(--muted)}
 .led-bar{height:16px;border-radius:4px;background:#1b1b1f;margin-top:24px;position:relative;overflow:hidden;box-shadow:0 0 16px rgba(232,17,45,.22)}
 .led-fill{
@@ -417,11 +429,11 @@ h2{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font
   content:"";position:absolute;inset:0;
   background:repeating-linear-gradient(90deg,transparent 0 14px,rgba(5,5,6,.85) 14px 16px);
 }
-.led-caption{display:flex;justify-content:space-between;gap:16px;margin-top:8px;font-family:var(--font-mono);font-size:12.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.led-caption{display:flex;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;margin-top:8px;font-family:var(--font-mono);font-size:12.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
 .r-rows{margin:24px 0;border-top:1px solid var(--line)}
-.r-row{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line-soft);font-size:15.5px}
-.r-row span{color:var(--muted)}
-.r-row b{font-weight:700;text-align:right;font-family:var(--font-mono);font-weight:400}
+.r-row{display:flex;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--line-soft);font-size:15.5px}
+.r-row span{color:var(--muted);flex:1 1 120px}
+.r-row b{font-weight:700;text-align:right;font-family:var(--font-mono);font-weight:400;overflow-wrap:anywhere;max-width:100%}
 .sim-result .btn{margin-top:auto;width:100%}
 
 /* ---------- Vender seu carro ---------- */
@@ -432,7 +444,7 @@ h2{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font
 }
 .sell-card.compra{background:var(--red)}
 .sell-card.consigna{background:var(--panel);border:1px solid var(--line)}
-.sell-card h3{font-family:var(--font-display);font-size:30px;font-weight:700;text-transform:uppercase;line-height:1.05;margin-bottom:8px}
+.sell-card h3{font-family:var(--font-display);font-size:30px;font-weight:700;text-transform:uppercase;line-height:1.14;margin-bottom:8px}
 .sell-card p{font-size:16.5px;max-width:42ch}
 .sell-card.compra p{color:#ffd9de}
 .sell-card.consigna p{color:var(--muted)}
@@ -445,8 +457,9 @@ h2{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font
 .arrive-photo{border-radius:12px;overflow:hidden;border:1px solid var(--line);position:relative;margin:0}
 .arrive-photo img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/4.4;object-position:50% 60%}
 .arrive-photo figcaption{
-  position:absolute;left:16px;bottom:16px;background:rgba(8,8,10,.88);border:1px solid rgba(255,255,255,.2);
-  padding:8px 16px;border-radius:8px;font-size:14px;font-weight:600;
+  position:absolute;left:16px;bottom:16px;background:#08080a;border:1px solid rgba(255,255,255,.2);
+  padding:8px 16px;border-radius:8px;font-size:14px;font-weight:600;line-height:1.4;
+  max-width:calc(100% - 32px);
 }
 .route-steps{list-style:none;margin:24px 0}
 .route-steps li{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);align-items:flex-start}
@@ -589,6 +602,15 @@ body.intro-on .gauge .needle{animation-delay:1.5s}
   .hero-grid{grid-template-columns:1fr;gap:40px}
   .hero-screen{justify-self:center}
   .hero h1{max-width:14ch}
+}
+@media (max-width:480px){
+  /* Card estreito: o selo de km sobe uma linha e o botão "Ouvir"
+     fica sozinho na base — os dois textos nunca dividem a mesma
+     linha nem se encostam sobre o pôster. */
+  .badge-km{bottom:76px;max-width:calc(100% - 32px)}
+  .kicker::after{display:none}
+  .hero-screen-foot{flex-wrap:wrap}
+  .hero-screen-foot > span{flex:1 1 100%}
 }
 @media (max-width:760px){
   .nav{display:none}
@@ -1101,6 +1123,8 @@ var cardObserver = ('IntersectionObserver' in window) ? new IntersectionObserver
 
 function render(){
   var list = filteredCars();
+  /* Vídeos dos cards antigos saem da observação de visibilidade. */
+  grid.querySelectorAll('video').forEach(function(v){ unobserveVideoVisibility(v); });
   grid.innerHTML = '';
   list.forEach(function(c, i){ grid.appendChild(buildCard(c, i)); });
   emptyState.hidden = list.length > 0;
@@ -1166,6 +1190,9 @@ function bindCardInteractions(){
     var media = card.querySelector('.card-media');
     var video = card.querySelector('video');
     var soundBtn = card.querySelector('[data-soundbtn]');
+    /* Pausa automática: este vídeo entra na observação de visibilidade
+       (saiu da tela tocando = pausa; não volta sozinho). */
+    if (video) observeVideoVisibility(video);
 
     function ensureSrc(){
       if (video && !video.getAttribute('src') && video.dataset.src){
@@ -1515,6 +1542,17 @@ var heroVideo = document.getElementById('heroVideo');
 var heroSoundBtn = document.getElementById('heroSoundBtn');
 if (heroVideo && heroSoundBtn){
   heroSoundBtn.addEventListener('click', function(){
+    /* Se a pausa automática parou o telão (ele saiu da tela), o clique
+       é o gesto de retomar: volta a tocar já com som. */
+    if (heroVideo.paused){
+      heroVideo.muted = false;
+      heroVideo.volume = 1;
+      var pr = heroVideo.play();
+      if (pr && pr.catch) pr.catch(function(){});
+      heroSoundBtn.setAttribute('aria-pressed', 'true');
+      document.getElementById('heroSoundLabel').textContent = 'Com som';
+      return;
+    }
     var turnOn = heroVideo.muted;
     heroVideo.muted = !turnOn;
     if (turnOn){
@@ -1526,6 +1564,45 @@ if (heroVideo && heroSoundBtn){
     document.getElementById('heroSoundLabel').textContent = turnOn ? 'Com som' : 'Ouvir';
   });
 }
+
+/* ==================== PAUSA AUTOMÁTICA FORA DA TELA ====================
+   Regra: vídeo tocando que sai da área visível PAUSA na hora.
+   - Cards dos carros: pausa e limpa o estado (selo volta pra "Ouvir");
+     NÃO retoma sozinho — quem retoma é a pessoa, no clique/play.
+   - Telão do showroom: é o único com retomada automática, e só no modo
+     autoplay MUDO; se a pessoa ligou o som e ele pausou fora da tela,
+     também só volta no clique do botão "Ouvir". */
+var visObs = null;
+function ensureVisObserver(){
+  if (visObs || !('IntersectionObserver' in window)) return visObs;
+  visObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      var v = en.target;
+      var visible = en.isIntersecting && en.intersectionRatio >= 0.25;
+      if (!visible){
+        if (!v.paused) v.pause();
+        var media = v.closest ? v.closest('.card-media') : null;
+        if (media && (media.classList.contains('playing') || media.classList.contains('sound'))){
+          media.classList.remove('playing', 'sound');
+          syncSoundBtns();
+        }
+      } else if (v === heroVideo && v.muted && v.paused){
+        /* Exceção do autoplay mudo: o telão retoma ao voltar pra tela. */
+        var p = v.play();
+        if (p && p.catch) p.catch(function(){});
+      }
+    });
+  }, { threshold: [0, 0.25, 0.6] });
+  return visObs;
+}
+function observeVideoVisibility(video){
+  var obs = ensureVisObserver();
+  if (obs && video) obs.observe(video);
+}
+function unobserveVideoVisibility(video){
+  if (visObs && video) visObs.unobserve(video);
+}
+if (heroVideo) observeVideoVisibility(heroVideo);
 
 /* ==================== BARRA DE PROGRESSO DE LEITURA ==================== */
 var scrollProgress = document.getElementById('scrollProgress');
